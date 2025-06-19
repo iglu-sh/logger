@@ -13,5 +13,9 @@
     "chalk": "^5.4.1"
   },
   "version": "0.0.1",
-  "repository":"https://github.com/iglu-sh/logger"
+  "repository":"https://github.com/iglu-sh/logger",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://npm.pkg.github.com"
+  }
 }
