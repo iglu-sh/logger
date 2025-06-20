@@ -1,19 +1,24 @@
 {
   "name": "@iglu-sh/logger",
   "module": "index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "type": "module",
   "devDependencies": {
     "@types/bun": "latest"
   },
   "peerDependencies": {
-    "typescript": "^5"
+    "typescript": "^5.8.3"
   },
   "dependencies": {
     "@types/chalk": "^2.2.4",
     "chalk": "^5.4.1"
   },
+  "scripts": {
+    "build": "npx tsc"
+  },
   "version": "0.0.1",
-  "repository":"https://github.com/iglu-sh/logger",
+  "repository": "https://github.com/iglu-sh/logger",
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
