@@ -9,7 +9,7 @@ type JSONLog = {
 }
 type AvailablePrefixColors = "GRAY" | "GREEN" | "YELLOW" | "RED" | "BLUE" | "MAGENTA" | "CYAN" | "WHITE";
 
-export class Logger{
+export default class Logger{
     private static logLevel: number = 1;
     private static jsonLogging: boolean = true;
     private static customChalk: typeof chalk = new Chalk({level: 3});
