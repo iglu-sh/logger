@@ -10,8 +10,6 @@ type JSONLog = {
 type AvailablePrefixColors = "GRAY" | "GREEN" | "YELLOW" | "RED" | "BLUE" | "MAGENTA" | "CYAN" | "WHITE";
 
 export default class Logger{
-    private static logLevel: number = 1;
-    private static jsonLogging: boolean = true;
     private static customChalk: typeof chalk = new Chalk({level: 3});
     private static logLevelMap: any = {
         "DEBUG": 1,
@@ -19,9 +17,6 @@ export default class Logger{
         "WARN": 3,
         "ERROR": 4
     };
-
-    private static prefix = "";
-    private static prefixText: string = "";
     private static prefixColors: any = {
         "GRAY": Logger.customChalk.bgGray,
         "GREEN": Logger.customChalk.bgGreen,
@@ -32,6 +27,13 @@ export default class Logger{
         "CYAN": Logger.customChalk.bgCyan,
         "WHITE": Logger.customChalk.bgWhite
     }
+
+    // If this is set to true, the logger will use environment variables to determine everything
+    private static useEnvVars: boolean = !!(process.env.LOGGER_USE_ENV && process.env.LOGGER_USE_ENV === "true");
+    private static prefixText: string = Logger.useEnvVars && process.env.LOGGER_PREFIX ? process.env.LOGGER_PREFIX : "";
+    private static prefix = Logger.useEnvVars ? Logger.prefixColors[process.env.LOGGER_USE_ENV ? process.env.LOGGER_USE_ENV : "BLUE"](Logger.prefixText) : "" ;
+    private static logLevel: number = Logger.useEnvVars && process.env.LOG_LEVEL ? Logger.logLevelMap[process.env.LOG_LEVEL] : 1;
+    private static jsonLogging: boolean = Logger.useEnvVars && process.env.LOGGER_JSON ? process.env.LOGGER_JSON === "true" : true;
     private static logLevelColorMap: any = {
         "DEBUG": Logger.customChalk.bgGray,
         "INFO": Logger.customChalk.bgGreen,
