@@ -1,6 +1,6 @@
 {
   "name": "@iglu-sh/logger",
-  "module": "index.ts",
+  "module": "dist/index.js",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "type": "module",
@@ -17,7 +17,7 @@
   "scripts": {
     "build": "npx tsc"
   },
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "repository": "https://github.com/iglu-sh/logger",
   "publishConfig": {
     "access": "public",
