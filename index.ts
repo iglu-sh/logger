@@ -2,10 +2,13 @@ import chalk from "chalk";
 import {Chalk} from 'chalk';
 type LogLevel = "DEBUG" | "INFO" | "WARN" | "ERROR";
 type JSONLog = {
+    prefix: string;
     level: LogLevel;
     message: string;
     timestamp: string;
 }
+type AvailablePrefixColors = "GRAY" | "GREEN" | "YELLOW" | "RED" | "BLUE" | "MAGENTA" | "CYAN" | "WHITE";
+
 export class Logger{
     private static logLevel: number = 1;
     private static jsonLogging: boolean = true;
@@ -17,6 +20,18 @@ export class Logger{
         "ERROR": 4
     };
 
+    private static prefix = "";
+    private static prefixText: string = "";
+    private static prefixColors: any = {
+        "GRAY": Logger.customChalk.bgGray,
+        "GREEN": Logger.customChalk.bgGreen,
+        "YELLOW": Logger.customChalk.bgYellow,
+        "RED": Logger.customChalk.bgRed,
+        "BLUE": Logger.customChalk.bgBlue,
+        "MAGENTA": Logger.customChalk.bgMagenta,
+        "CYAN": Logger.customChalk.bgCyan,
+        "WHITE": Logger.customChalk.bgWhite
+    }
     private static logLevelColorMap: any = {
         "DEBUG": Logger.customChalk.bgGray,
         "INFO": Logger.customChalk.bgGreen,
@@ -50,18 +65,26 @@ export class Logger{
     public static setJsonLogging(jsonLogging: boolean){
         Logger.jsonLogging = jsonLogging;
     }
+    public static setPrefix(prefix: string, color: AvailablePrefixColors = "BLUE"){
+        if(!Logger.prefixColors[color]){
+            throw new Error(`${chalk.bgRed("ERROR:")} Invalid prefix color: ${color}`);
+        }
+        Logger.prefix = Logger.prefixColors[color](prefix);
+        Logger.prefixText = prefix;
+    }
     static log(level:LogLevel, message: string){
         if(Logger.logLevelMap[level] < Logger.logLevel){
             return;
         }
         if(Logger.jsonLogging){
             console.log(JSON.stringify({
+                prefix: Logger.prefixText,
                 level,
                 message,
                 timestamp: new Date().toISOString()
             } as JSONLog));
         }else{
-            console.log(Logger.customChalk.grey(`${new Date().toISOString()}`), Logger.logLevelColorMap[level](`${level}`), message);
+            console.log(this.prefix, Logger.customChalk.grey(`${new Date().toISOString()}`), Logger.logLevelColorMap[level](`${level}`), message);
         }
     }
 
@@ -87,12 +110,12 @@ export class Logger{
     }
     static logResponse(endpoint:string, method:string, statusCode:number){
         if(Logger.jsonLogging){
-            this.log('DEBUG', `${method} ${endpoint} - ${statusCode}`);
+            this.log('DEBUG', `${this.prefixText} ${method} ${endpoint} - ${statusCode}`);
         }
         else{
             let statusCodeGroup = Math.floor(statusCode / 100);
             let statusCodeColor = Logger.statusCodeColorMap[`${statusCodeGroup}xx`] ? Logger.statusCodeColorMap[`${statusCodeGroup}xx`] : Logger.statusCodeColorMap['default'];
-            console.log(Logger.customChalk.grey(`${new Date().toISOString()}`), statusCodeColor(statusCode), `${Logger.verbColorMap[method](method)} `, endpoint);
+            console.log(Logger.customChalk.grey(`${this.prefix} ${new Date().toISOString()}`), statusCodeColor(statusCode), `${Logger.verbColorMap[method](method)} `, endpoint);
         }
     }
 }

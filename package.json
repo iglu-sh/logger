@@ -17,7 +17,7 @@
   "scripts": {
     "build": "npx tsc"
   },
-  "version": "v0.0.3",
+  "version": "v1.0.0",
   "repository": "https://github.com/iglu-sh/logger",
   "publishConfig": {
     "access": "public",
