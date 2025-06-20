@@ -31,7 +31,7 @@ export default class Logger{
     // If this is set to true, the logger will use environment variables to determine everything
     private static useEnvVars: boolean = !!(process.env.LOGGER_USE_ENV && process.env.LOGGER_USE_ENV === "true");
     private static prefixText: string = Logger.useEnvVars && process.env.LOGGER_PREFIX ? process.env.LOGGER_PREFIX : "";
-    private static prefix = Logger.useEnvVars ? Logger.prefixColors[process.env.LOGGER_USE_ENV ? process.env.LOGGER_USE_ENV : "BLUE"](Logger.prefixText) : "" ;
+    private static prefix = Logger.useEnvVars ? Logger.prefixColors[process.env.LOGGER_USE_ENV && process.env.LOGGER_PREFIX_COLOR ? process.env.LOGGER_PREFIX_COLOR : "BLUE"](Logger.prefixText) : "" ;
     private static logLevel: number = Logger.useEnvVars && process.env.LOG_LEVEL ? Logger.logLevelMap[process.env.LOG_LEVEL] : 1;
     private static jsonLogging: boolean = Logger.useEnvVars && process.env.LOGGER_JSON ? process.env.LOGGER_JSON === "true" : true;
     private static logLevelColorMap: any = {
