@@ -22,8 +22,8 @@ import Logger from "@iglu-sh/logger";
 
 // Default value
 Logger.useEnvVars = true; // Enable configuration via env variables
-Logger.logLevel = 1; // Could be set via env LOG_LEVEL (must be one of: INFO, DEBUG, ERROR, WARN)
-Logger.jsonLogging = true; // Could be set vie env LOGGER_JSON=true
+Logger.logLevel = 1; // Could be set via LOG_LEVEL env (must be one of: INFO, DEBUG, ERROR or WARN)
+Logger.jsonLogging = true; // Could be set via the LOGGER_JSON env (must be one of: true or false)
 ```
 ### Functions
 ```javascript
