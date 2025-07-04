@@ -1,5 +1,4 @@
 import Logger from "./index";
-Logger.setLogFile()
 Logger.setLogLevel("DEBUG")
 Logger.setJsonLogging(true)
 Logger.setPrefix("TestApp", "BLUE");
