@@ -1,5 +1,7 @@
 import chalk from "chalk";
 import {Chalk} from 'chalk';
+import * as fs from "node:fs";
+import {WriteStream} from "node:fs";
 type LogLevel = "DEBUG" | "INFO" | "WARN" | "ERROR";
 type JSONLog = {
     prefix: string;
@@ -58,6 +60,7 @@ export default class Logger{
         "5xx": Logger.customChalk.red,
         "default": Logger.customChalk.white
     }
+    public static logStream: ((data: string) => void) | undefined = process.env.LOGGER_LOG_FILE ? (data:string) => {fs.appendFileSync(`./${Logger.prefixText}.log`, data, undefined)} : undefined;
     public static setLogLevel(level: LogLevel){
         if(!Logger.logLevelMap[level]){
             throw new Error(`${chalk.bgRed("ERROR:")} Invalid log level: ${level}`);
@@ -74,6 +77,9 @@ export default class Logger{
         Logger.prefix = Logger.prefixColors[color](prefix);
         Logger.prefixText = prefix;
     }
+    public static setLogFile(){
+        Logger.logStream = (data:string) => {fs.appendFileSync(`./${Logger.prefixText}.log`, data, undefined)};
+    }
     static log(level:LogLevel, message: string){
         if(Logger.logLevelMap[level] < Logger.logLevel){
             return;
@@ -85,8 +91,19 @@ export default class Logger{
                 message,
                 timestamp: new Date().toISOString()
             } as JSONLog));
+            if(Logger.logStream){
+                Logger.logStream(JSON.stringify({
+                    prefix: Logger.prefixText,
+                    level,
+                    message,
+                    timestamp: new Date().toISOString()
+                } as JSONLog) + '\n');
+            }
         }else{
             console.log(this.prefix, Logger.customChalk.grey(`${new Date().toISOString()}`), Logger.logLevelColorMap[level](`${level}`), message);
+            if(Logger.logStream){
+                Logger.logStream(`${Logger.prefixText} ${new Date().toISOString()} [${level}] ${message}\n`);
+            }
         }
     }
 

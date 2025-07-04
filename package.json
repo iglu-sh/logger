@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@types/chalk": "^2.2.4",
+    "@types/node": "^24.0.10",
     "chalk": "^5.4.1"
   },
   "scripts": {

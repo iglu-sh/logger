@@ -53,5 +53,18 @@ To run:
 bun run index.ts
 ```
 
-This project was created using `bun init` in bun v1.2.13. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
-# logger
+## Environment variables
+The Following environment variables can be used to configure the logger:  
+One Important note: If you set `LOGGER_USE_ENV` to `false`, the logger will not use any environment variables, and you must set the values in code.
+
+| Variable              | Description                                                          |
+|-----------------------|----------------------------------------------------------------------|
+| `LOG_LEVEL`           | The Level to Log variables for, may be DEBUG INFO WARN or ERROR      |
+| `LOGGER_USE_ENV`      | Specifies if the Logger should use env vars                          |
+| `LOGGGER_JSON`        | Specifies if the Logger should log in JSON format                    |
+| `LOGGER_PREFIX`       | The prefix to use for the logger, defaults to an empty string        |
+| `LOGGER_PREFIX_COLOR` | The color to use for the prefix, defaults to `BLUE`                  |
+| `LOGGER_LOG_FILE`     | Specify weather the logger should log to a file, defaults to `false` |
+
+## License
+This project is licensed under the GLWTS(Good Luck With That Shit, No LLMs) Public License. For more information see the LICENSE file in this repo
